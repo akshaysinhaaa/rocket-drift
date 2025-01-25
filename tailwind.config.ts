@@ -13,6 +13,9 @@ export default {
         foreground: "var(--foreground)",
       },
     },
+    scale: {
+      '-1': '-1',
+    }
   },
   plugins: [],
 } satisfies Config;
