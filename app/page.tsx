@@ -16,8 +16,6 @@ export default function Home() {
   }, [])
   
 
-
-
   const setHandResults = (result: any) => {
 
     setIsDetected(result.isDetected);
@@ -46,9 +44,12 @@ export default function Home() {
         </div>
         <div id="rocket-container" style={{
           position: 'absolute',
-          left: rocketLeft
+          left: rocketLeft,
+          transition: 'all',
+          animationDuration: '10ms',
+          marginTop: '500px'
         }}>
-          <RocketComponent />
+          <RocketComponent degrees={degrees} />
         </div>
       </main>
   );
