@@ -3,16 +3,39 @@
 import Image from "next/image";
 import HandRecognizer from '@/components/HandRecognizer';
 import RocketComponent from "@/components/RocketComponent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [rocketLeft, setRocketLeft] = useState(0);
   const [isDetected, setIsDetected] = useState(false);
   const [degrees, setDegrees] = useState(0);
+
+  useEffect(() => {
+    setRocketLeft(window.innerWidth / 2);
+    
+  }, [])
+  
+
+
+
   const setHandResults = (result: any) => {
 
     setIsDetected(result.isDetected);
     setDegrees(result.degrees);
+
+    if(result.degrees && result.degrees !== 0){
+      setRocketLeft(prev => {
+        const ret =  prev - result.degrees/6;
+        if(ret < 20){
+          return prev;
+        }
+        if(ret > window.innerWidth - 52){
+          return prev;
+        }
+
+        return ret;
+      })
+    }
   }
 
   return (
