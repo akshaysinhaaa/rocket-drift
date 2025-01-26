@@ -58,5 +58,17 @@ async function initModel() {
 
 function processDetections(detections: HandLandmarkerResult, setHandResults: () => void) {
     console.log(detections);
+    if(detections && detections.handedness.length > 1){
+        const rightIndex = detections.handedness[0][0].categoryName === 'Right' ? 0 : 1;
+        const leftIndex = rightIndex === 0 ? 1 : 0;
+
+        const { x: leftX, y: leftY, z: leftZ } = detections.landmarks[leftIndex][6];
+        const { x: rightX, y: rightY, z: rightZ } = detections.landmarks[rightIndex][6];
+
+        const tilt = (rightY - leftY) / (rightX - leftX);
+        const degrees = (Math.atan(tilt) * 180) / Math.PI;
+
+    }
+
 }
 
