@@ -2,16 +2,24 @@ import { FilesetResolver, HandLandmarker, HandLandmarkerResult } from '@mediapip
 import React, { useEffect, useRef } from 'react'
 
 type Props = {
-    setHandResults: () => void
+    setHandResults: (result: any) => void
 }
+
+let detectionInterval: any;
 
 const HandRecognizer = ({setHandResults}: Props) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     useEffect(() => {
         initVideoAndModel();
+
+        return () => {
+            clearInterval(detectionInterval);
+        }
     }, [])
 
     const initVideoAndModel = async () => {
+        setHandResults({ isLoading: true })
+
         const videoElement = videoRef.current;
         if(!videoElement) {
             return;
@@ -20,10 +28,12 @@ const HandRecognizer = ({setHandResults}: Props) => {
         await initVideo(videoElement);
 
         const handLandmarker = await initModel();
-        setInterval (() => {
+        detectionInterval = setInterval (() => {
             const detections = handLandmarker.detectForVideo(videoElement, Date.now());
             processDetections(detections, setHandResults);
         }, 1000)
+
+        setHandResults({ isLoading: false });
     }
   return (
     <div>
@@ -56,7 +66,7 @@ async function initModel() {
     return handLandmarker
 }
 
-function processDetections(detections: HandLandmarkerResult, setHandResults: () => void) {
+function processDetections(detections: HandLandmarkerResult, setHandResults: (result: any) => void) {
     console.log(detections);
     if(detections && detections.handedness.length > 1){
         const rightIndex = detections.handedness[0][0].categoryName === 'Right' ? 0 : 1;
@@ -68,7 +78,18 @@ function processDetections(detections: HandLandmarkerResult, setHandResults: () 
         const tilt = (rightY - leftY) / (rightX - leftX);
         const degrees = (Math.atan(tilt) * 180) / Math.PI;
 
-    }
+        setHandResults({
+            isDetected: true,
+            tilt,
+            degrees
+        })
 
+    } else{
+        setHandResults({
+            isDetected: false,
+            tilt: 0,
+            degrees: 0
+        })
+    }
 }
 
