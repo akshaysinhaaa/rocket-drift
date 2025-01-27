@@ -19,3 +19,9 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@keyframes moveDown {
+  to {
+    top: 700px;
+  }
+}

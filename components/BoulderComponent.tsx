@@ -19,9 +19,12 @@ const BoulderComponent = (props: Props) => {
     <div style={{
         position: 'absolute',
         left: xState,
-        top: yState
+        top: yState,
+        animation: 'moveDown 2s linear forwards'
     }}>
-        <Image src={'/met.png'} width={80} height={80} alt={''} />
+        <Image src={'/met.png'} width={80} height={80} alt={''} style={{
+          rotate: `${rotation}deg`
+        }}/>
     </div>
   )
 }
