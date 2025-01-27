@@ -22,33 +22,37 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
-    generationInterval = setInterval(() => {
-      setBoulders(prevArr => {
-        let retArr = [...prevArr];
-        for(let i = 0; i<4; i++){
-          const now = Date.now();
-          retArr = [...retArr, {
-            timestamp: now,
-            key: `${now}-${Math.random()}`
-          }]
-        } 
-        return retArr;
-      })
-    }, 1000);
-
-    removalInterval = setInterval (() => {
-      const now = Date.now();
-      setBoulders(prevArr => {
-        return prevArr.filter((b, idx) => {
-          return (now - b.timestamp) < 5000;
+    if(isDetected){
+      generationInterval = setInterval(() => {
+        setBoulders(prevArr => {
+          let retArr = [...prevArr];
+          for(let i = 0; i<4; i++){
+            const now = Date.now();
+            retArr = [...retArr, {
+              timestamp: now,
+              key: `${now}-${Math.random()}`
+            }]
+          } 
+          return retArr;
         })
-      })
-    }, 5000)
-
+      }, 1000);
+  
+      removalInterval = setInterval (() => {
+        const now = Date.now();
+        setBoulders(prevArr => {
+          return prevArr.filter((b, idx) => {
+            return (now - b.timestamp) < 5000;
+          })
+        })
+      }, 5000)
+    }
+    
     return () => {
       clearInterval(generationInterval);
+      clearInterval(removalInterval);
+
     }
-  }, [])
+  }, [isDetected])
   
   
 
