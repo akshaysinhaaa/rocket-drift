@@ -4,11 +4,13 @@ import Image from "next/image";
 import HandRecognizer from '@/components/HandRecognizer';
 import RocketComponent from "@/components/RocketComponent";
 import { useEffect, useState } from "react";
+import BoulderComponent from "@/components/BoulderComponent";
 
 export default function Home() {
   const [rocketLeft, setRocketLeft] = useState(0);
   const [isDetected, setIsDetected] = useState(false);
   const [degrees, setDegrees] = useState(0);
+  const [boulders, setBoulders] = useState<any[]>([{},{}])
 
   useEffect(() => {
     setRocketLeft(window.innerWidth / 2);
@@ -50,6 +52,11 @@ export default function Home() {
           marginTop: '500px'
         }}>
           <RocketComponent degrees={degrees} />
+        </div>
+        <div className="absolute z-10 h-screen w-screen overflow-hidden">
+          {boulders.map((b, idx) => {
+            return <BoulderComponent key={idx} />
+          })}
         </div>
       </main>
   );
