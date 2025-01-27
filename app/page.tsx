@@ -6,16 +6,31 @@ import RocketComponent from "@/components/RocketComponent";
 import { useEffect, useState } from "react";
 import BoulderComponent from "@/components/BoulderComponent";
 
+
+let generationInterval: any;
 export default function Home() {
   const [rocketLeft, setRocketLeft] = useState(0);
   const [isDetected, setIsDetected] = useState(false);
   const [degrees, setDegrees] = useState(0);
-  const [boulders, setBoulders] = useState<any[]>([{},{}])
+  const [boulders, setBoulders] = useState<any[]>([])
 
   useEffect(() => {
     setRocketLeft(window.innerWidth / 2);
     
   }, [])
+
+  useEffect(() => {
+    generationInterval = setInterval(() => {
+      setBoulders(prevArr => {
+        return [...prevArr, {}, {}, {}, {}]
+      })
+    }, 1000);
+
+    return () => {
+      clearInterval(generationInterval);
+    }
+  }, [])
+  
   
 
   const setHandResults = (result: any) => {
