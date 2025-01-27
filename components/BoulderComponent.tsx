@@ -10,17 +10,17 @@ const BoulderComponent = (props: Props) => {
 
     useEffect(() => {
       setXState(Math.random() * (window.innerWidth - 80));
-      setYState(Math.random() * 100);
+      setYState(- Math.random() * 100 - 100);
       setRotation(Math.random() * 360);
     }, [])
     
 
   return (
-    <div style={{
+    <div className='boulder-shadow' style={{
         position: 'absolute',
         left: xState,
         top: yState,
-        animation: 'moveDown 2s linear forwards'
+        animation: 'moveDown 10s linear forwards'
     }}>
         <Image src={'/met.png'} width={80} height={80} alt={''} style={{
           rotate: `${rotation}deg`

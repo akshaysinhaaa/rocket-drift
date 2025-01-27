@@ -5,9 +5,11 @@ import HandRecognizer from '@/components/HandRecognizer';
 import RocketComponent from "@/components/RocketComponent";
 import { useEffect, useState } from "react";
 import BoulderComponent from "@/components/BoulderComponent";
+import { timeStamp } from "console";
 
 
 let generationInterval: any;
+let removalInterval: any;
 export default function Home() {
   const [rocketLeft, setRocketLeft] = useState(0);
   const [isDetected, setIsDetected] = useState(false);
@@ -22,9 +24,26 @@ export default function Home() {
   useEffect(() => {
     generationInterval = setInterval(() => {
       setBoulders(prevArr => {
-        return [...prevArr, {}, {}, {}, {}]
+        let retArr = [...prevArr];
+        for(let i = 0; i<4; i++){
+          const now = Date.now();
+          retArr = [...retArr, {
+            timestamp: now,
+            key: `${now}-${Math.random()}`
+          }]
+        } 
+        return retArr;
       })
     }, 1000);
+
+    removalInterval = setInterval (() => {
+      const now = Date.now();
+      setBoulders(prevArr => {
+        return prevArr.filter((b, idx) => {
+          return (now - b.timestamp) < 5000;
+        })
+      })
+    }, 5000)
 
     return () => {
       clearInterval(generationInterval);
@@ -70,7 +89,7 @@ export default function Home() {
         </div>
         <div className="absolute z-10 h-screen w-screen overflow-hidden">
           {boulders.map((b, idx) => {
-            return <BoulderComponent key={idx} />
+            return <BoulderComponent key={b.key} />
           })}
         </div>
       </main>

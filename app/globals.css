@@ -22,6 +22,10 @@ body {
 
 @keyframes moveDown {
   to {
-    top: 700px;
+    top: 2000px;
   }
+}
+
+.boulder-shadow {
+  filter: drop-shadow(17px 10px 14px #000000);
 }
