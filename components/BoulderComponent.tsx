@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
 
-type Props = {}
+type Props = {
+  isMoving ?: boolean
+}
 
-const BoulderComponent = (props: Props) => {
+const BoulderComponent = ({ isMoving }: Props) => {
     const [xState, setXState] = useState(0);
     const [yState, setYState] = useState(0);
     const [rotation, setRotation] = useState(0);
@@ -20,7 +22,8 @@ const BoulderComponent = (props: Props) => {
         position: 'absolute',
         left: xState,
         top: yState,
-        animation: 'moveDown 10s linear forwards'
+        animation: 'moveDown 10s linear forwards',
+        animationPlayState: isMoving ? 'running' : 'paused'
     }}>
         <Image src={'/met.png'} width={80} height={80} alt={''} style={{
           rotate: `${rotation}deg`

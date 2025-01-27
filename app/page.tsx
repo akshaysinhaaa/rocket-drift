@@ -89,7 +89,7 @@ export default function Home() {
         </div>
         <div className="absolute z-10 h-screen w-screen overflow-hidden">
           {boulders.map((b, idx) => {
-            return <BoulderComponent key={b.key} />
+            return <BoulderComponent key={b.key} isMoving={isDetected} />
           })}
         </div>
       </main>

@@ -27,5 +27,9 @@ body {
 }
 
 .boulder-shadow {
-  filter: drop-shadow(17px 10px 14px #000000);
+  filter: drop-shadow(10px 10px 5px #00000066);
+}
+
+.rocket-shadow {
+  filter: drop-shadow(3px 3px 2px #00000066);
 }
