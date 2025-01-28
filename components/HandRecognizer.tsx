@@ -67,7 +67,6 @@ async function initModel() {
 }
 
 function processDetections(detections: HandLandmarkerResult, setHandResults: (result: any) => void) {
-    console.log(detections);
     if(detections && detections.handedness.length > 1){
         const rightIndex = detections.handedness[0][0].categoryName === 'Right' ? 0 : 1;
         const leftIndex = rightIndex === 0 ? 1 : 0;

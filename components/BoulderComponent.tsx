@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Image from 'next/image';
 
 type Props = {
@@ -12,12 +12,23 @@ const BoulderComponent = ({ isMoving, what, soWhat, when }: Props) => {
     const [xState, setXState] = useState(0);
     const [yState, setYState] = useState(0);
     const [rotation, setRotation] = useState(0);
+    const boulderRef = useRef(null);
 
     useEffect(() => {
+      // Detection logic
+      detectCollision();
 
     }, [when])
     
-
+    const detectCollision = () => {
+      if(boulderRef.current){
+        const boulder = (boulderRef.current as any).getBoundingClientRect();
+        const didCollide = boulder.left < what.right && boulder.right > what.left && boulder.top < what.bottom && boulder.bottom > what.top;
+        if(didCollide){
+          soWhat();
+        }
+      }
+    }
     useEffect(() => {
       setXState(Math.random() * (window.innerWidth - 80));
       setYState(- Math.random() * 100 - 100);
@@ -26,7 +37,7 @@ const BoulderComponent = ({ isMoving, what, soWhat, when }: Props) => {
     
 
   return (
-    <div className='boulder-shadow' style={{
+    <div ref={boulderRef} className='boulder-shadow' style={{
         position: 'absolute',
         left: xState,
         top: yState,
