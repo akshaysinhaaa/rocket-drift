@@ -3,7 +3,7 @@
 import Image from "next/image";
 import HandRecognizer from '@/components/HandRecognizer';
 import RocketComponent from "@/components/RocketComponent";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import BoulderComponent from "@/components/BoulderComponent";
 import { timeStamp } from "console";
 
@@ -15,6 +15,10 @@ export default function Home() {
   const [isDetected, setIsDetected] = useState(false);
   const [degrees, setDegrees] = useState(0);
   const [boulders, setBoulders] = useState<any[]>([])
+  const [detectCollisionTrigger, setDetectCollisionTrigger] = useState<number>(0);
+
+  const rocketRef = useRef(null);
+  const [rocket, setRocket] = useState<any>();
 
   useEffect(() => {
     setRocketLeft(window.innerWidth / 2);
@@ -62,6 +66,7 @@ export default function Home() {
     setDegrees(result.degrees);
 
     if(result.degrees && result.degrees !== 0){
+      setDetectCollisionTrigger(Math.random());
       setRocketLeft(prev => {
         const ret =  prev - result.degrees/6;
         if(ret < 20){
@@ -74,6 +79,12 @@ export default function Home() {
         return ret;
       })
     }
+
+    setRocket(((rocketRef.current as any).getBoundingClientRect()));
+  }
+
+  const collisionHandler = () => {
+
   }
 
   return (
@@ -82,7 +93,7 @@ export default function Home() {
         <div className="absolute left-3 top-3 z-30 w-24">
           <HandRecognizer setHandResults = {setHandResults}/> 
         </div>
-        <div id="rocket-container" style={{
+        <div ref={rocketRef} id="rocket-container" style={{
           position: 'absolute',
           left: rocketLeft,
           transition: 'all',
@@ -93,7 +104,7 @@ export default function Home() {
         </div>
         <div className="absolute z-10 h-screen w-screen overflow-hidden">
           {boulders.map((b, idx) => {
-            return <BoulderComponent key={b.key} isMoving={isDetected} />
+            return <BoulderComponent key={b.key} isMoving={isDetected} what={rocket} soWhat={collisionHandler} />
           })}
         </div>
       </main>

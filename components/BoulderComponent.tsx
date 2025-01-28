@@ -2,13 +2,21 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
 
 type Props = {
-  isMoving ?: boolean
+  isMoving ?: boolean,
+  what: any,
+  soWhat: () => void,
+  when: any
 }
 
-const BoulderComponent = ({ isMoving }: Props) => {
+const BoulderComponent = ({ isMoving, what, soWhat, when }: Props) => {
     const [xState, setXState] = useState(0);
     const [yState, setYState] = useState(0);
     const [rotation, setRotation] = useState(0);
+
+    useEffect(() => {
+
+    }, [when])
+    
 
     useEffect(() => {
       setXState(Math.random() * (window.innerWidth - 80));
