@@ -10,6 +10,8 @@ import { timeStamp } from "console";
 
 let generationInterval: any;
 let removalInterval: any;
+
+let isInvincible = false;
 export default function Home() {
   const [rocketLeft, setRocketLeft] = useState(0);
   const [isDetected, setIsDetected] = useState(false);
@@ -85,7 +87,13 @@ export default function Home() {
 
   const collisionHandler = () => {
     //after Collision
-    console.log('COLLISION');
+    if(!isInvincible){
+      console.log('COLLISION');
+      isInvincible = true;
+       setTimeout(() => {
+        isInvincible = false;
+       }, 1500)
+    }
   }
 
   return (
