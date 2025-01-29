@@ -6,6 +6,7 @@ import RocketComponent from "@/components/RocketComponent";
 import { useEffect, useRef, useState } from "react";
 import BoulderComponent from "@/components/BoulderComponent";
 import { timeStamp } from "console";
+import GameInfoOverlay from "@/components/GameInfoOverlay";
 
 
 let generationInterval: any;
@@ -18,6 +19,8 @@ export default function Home() {
   const [degrees, setDegrees] = useState(0);
   const [boulders, setBoulders] = useState<any[]>([])
   const [detectCollisionTrigger, setDetectCollisionTrigger] = useState<number>(0);
+
+  const [isLoading, setIsLoading] = useState(false)
 
   const rocketRef = useRef(null);
   const [rocket, setRocket] = useState<any>();
@@ -63,7 +66,7 @@ export default function Home() {
   
 
   const setHandResults = (result: any) => {
-
+    setIsLoading(result.isLoading);
     setIsDetected(result.isDetected);
     setDegrees(result.degrees);
 
@@ -116,6 +119,8 @@ export default function Home() {
             return <BoulderComponent key={b.key} isMoving={isDetected} what={rocket} soWhat={collisionHandler} when={detectCollisionTrigger} />
           })}
         </div>
+
+        <GameInfoOverlay info={{ isLoading, isDetected }} />
       </main>
   );
 }
