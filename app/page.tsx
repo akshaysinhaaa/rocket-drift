@@ -14,6 +14,7 @@ let removalInterval: any;
 let distanceInterval: any;
 
 let isInvincible = false;
+let livesRemaining: number;
 export default function Home() {
   const [rocketLeft, setRocketLeft] = useState(0);
   const [isDetected, setIsDetected] = useState(false);
@@ -25,12 +26,16 @@ export default function Home() {
   const [isColliding, setIsColliding] = useState(false);
   const [distance, setDistance] = useState(0);
 
+  const [livesRemainingState, setLivesRemainingState] = useState(0);
+  const [isGameOver, setIsGameOver] = useState(false);
+
   const rocketRef = useRef(null);
   const [rocket, setRocket] = useState<any>();
 
   useEffect(() => {
     setRocketLeft(window.innerWidth / 2);
-    
+    livesRemaining = 4;
+    setLivesRemainingState(livesRemaining);
   }, [])
 
   useEffect(() => {
@@ -110,6 +115,12 @@ export default function Home() {
       console.log('COLLISION');
       isInvincible = true;
       setIsColliding(isInvincible);
+      livesRemaining--;
+      setLivesRemainingState(livesRemaining);
+      if(livesRemaining <= 0){
+        //game over
+        setIsGameOver(true);
+      }
        setTimeout(() => {
         isInvincible = false;
         setIsColliding(isInvincible);
@@ -138,7 +149,7 @@ export default function Home() {
           })}
         </div>
 
-        <GameInfoOverlay info={{ isLoading, isDetected, isColliding, distance }} />
+        <GameInfoOverlay info={{ isLoading, isDetected, isColliding, distance, livesRemainingState, isGameOver }} />
       </main>
   );
 }
