@@ -39,7 +39,7 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
-    if(isDetected){
+    if(isDetected && !isGameOver){
       distanceInterval= setInterval(() => {
         setDistance(prev => prev + 1);
       }, 100)
@@ -48,7 +48,7 @@ export default function Home() {
     return () => {
       clearInterval(distanceInterval);
     }
-  }, [isDetected])
+  }, [isDetected, isGameOver])
   
 
   useEffect(() => {

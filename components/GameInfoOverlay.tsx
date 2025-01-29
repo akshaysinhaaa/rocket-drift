@@ -14,7 +14,8 @@ const GameInfoOverlay = ({ info }: Props) => {
   return (
     <div className={`absolute z-30 h-screen w-screen flex items-center justify-center ${isColliding && 'border-[20px] border-red-600'}`}>
         {isLoading && <Loader2 size={80} className='animate-spin' /> }
-        {!isLoading && !isDetected && <div className='text-2xl animate-ping font-extrabold'>P A U S E D</div>}
+        {!isLoading && !isDetected && !isGameOver && <div className='text-2xl animate-ping font-extrabold'>P A U S E D</div>}
+        {isGameOver && <div className='text-2xl animate-ping font-extrabold'>G A M E O V E R</div>}
         <div className='fixed top-6 right-6'>{`Distance ${distance}`}</div>
         <div className='fixed top-12 right-6 flex flex-row gap-1'>{lives}</div>
     </div>
