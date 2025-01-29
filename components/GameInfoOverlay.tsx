@@ -6,9 +6,9 @@ type Props = {
 }
 
 const GameInfoOverlay = ({ info }: Props) => {
-    const { isLoading, isDetected } = info;
+    const { isLoading, isDetected, isColliding } = info;
   return (
-    <div className='absolute z-30 h-screen w-screen flex items-center justify-center'>
+    <div className={`absolute z-30 h-screen w-screen flex items-center justify-center ${isColliding && 'border-[20px] border-red-600'}`}>
         {isLoading && <Loader2 size={80} className='animate-spin' /> }
         {!isLoading && !isDetected && <div className='text-2xl animate-ping font-extrabold'>P A U S E D</div>}
     </div>

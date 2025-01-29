@@ -20,7 +20,8 @@ export default function Home() {
   const [boulders, setBoulders] = useState<any[]>([])
   const [detectCollisionTrigger, setDetectCollisionTrigger] = useState<number>(0);
 
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [isColliding, setIsColliding] = useState(false);
 
   const rocketRef = useRef(null);
   const [rocket, setRocket] = useState<any>();
@@ -93,8 +94,10 @@ export default function Home() {
     if(!isInvincible){
       console.log('COLLISION');
       isInvincible = true;
+      setIsColliding(isInvincible);
        setTimeout(() => {
         isInvincible = false;
+        setIsColliding(isInvincible);
        }, 1500)
     }
   }
@@ -120,7 +123,7 @@ export default function Home() {
           })}
         </div>
 
-        <GameInfoOverlay info={{ isLoading, isDetected }} />
+        <GameInfoOverlay info={{ isLoading, isDetected, isColliding }} />
       </main>
   );
 }
