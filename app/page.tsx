@@ -11,6 +11,7 @@ import GameInfoOverlay from "@/components/GameInfoOverlay";
 
 let generationInterval: any;
 let removalInterval: any;
+let distanceInterval: any;
 
 let isInvincible = false;
 export default function Home() {
@@ -22,6 +23,7 @@ export default function Home() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [isColliding, setIsColliding] = useState(false);
+  const [distance, setDistance] = useState(0);
 
   const rocketRef = useRef(null);
   const [rocket, setRocket] = useState<any>();
@@ -30,6 +32,19 @@ export default function Home() {
     setRocketLeft(window.innerWidth / 2);
     
   }, [])
+
+  useEffect(() => {
+    if(isDetected){
+      distanceInterval= setInterval(() => {
+        setDistance(prev => prev + 1);
+      }, 100)
+    }
+
+    return () => {
+      clearInterval(distanceInterval);
+    }
+  }, [isDetected])
+  
 
   useEffect(() => {
     if(isDetected){
@@ -123,7 +138,7 @@ export default function Home() {
           })}
         </div>
 
-        <GameInfoOverlay info={{ isLoading, isDetected, isColliding }} />
+        <GameInfoOverlay info={{ isLoading, isDetected, isColliding, distance }} />
       </main>
   );
 }
