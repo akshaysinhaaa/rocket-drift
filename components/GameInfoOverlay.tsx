@@ -16,7 +16,7 @@ const GameInfoOverlay = ({ info }: Props) => {
         {isLoading && <Loader2 size={80} className='animate-spin' /> }
         {!isLoading && !isDetected && <div className='text-2xl animate-ping font-extrabold'>P A U S E D</div>}
         <div className='fixed top-6 right-6'>{`Distance ${distance}`}</div>
-        <div className='fixed top-12 right-6'>{lives}</div>
+        <div className='fixed top-12 right-6 flex flex-row gap-1'>{lives}</div>
     </div>
   )
 }
