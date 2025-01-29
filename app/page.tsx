@@ -52,7 +52,7 @@ export default function Home() {
   
 
   useEffect(() => {
-    if(isDetected){
+    if(isDetected && !isGameOver){
       generationInterval = setInterval(() => {
         setBoulders(prevArr => {
           let retArr = [...prevArr];
@@ -82,7 +82,7 @@ export default function Home() {
       clearInterval(removalInterval);
 
     }
-  }, [isDetected])
+  }, [isDetected, isGameOver])
   
   
 
@@ -111,7 +111,7 @@ export default function Home() {
 
   const collisionHandler = () => {
     //after Collision
-    if(!isInvincible){
+    if(!isInvincible && !isGameOver){
       console.log('COLLISION');
       isInvincible = true;
       setIsColliding(isInvincible);
