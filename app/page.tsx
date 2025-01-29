@@ -105,7 +105,7 @@ export default function Home() {
   return (
       <main className="flex min-h-screen flex-col items-center justify-center p-24">
         {/* //Making a webcam space for the user to see himself while playing the game */}
-        <div className="absolute left-3 top-3 z-30 w-24">
+        <div className={`absolute left-3 top-3 z-30 transition-all duration-500 ${isDetected ? 'w-24' : 'w-48' }`}>
           <HandRecognizer setHandResults = {setHandResults}/> 
         </div>
         <div ref={rocketRef} id="rocket-container" style={{
