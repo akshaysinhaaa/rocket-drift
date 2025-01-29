@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import BoulderComponent from "@/components/BoulderComponent";
 import { timeStamp } from "console";
 import GameInfoOverlay from "@/components/GameInfoOverlay";
+import { playBackground, playFX } from "@/utils/audiohandler";
 
 
 let generationInterval: any;
@@ -115,6 +116,7 @@ export default function Home() {
       console.log('COLLISION');
       isInvincible = true;
       setIsColliding(isInvincible);
+      playFX();
       livesRemaining--;
       setLivesRemainingState(livesRemaining);
       if(livesRemaining <= 0){
@@ -127,6 +129,15 @@ export default function Home() {
        }, 1500)
     }
   }
+
+  useEffect(() => {
+    if(isDetected && !isGameOver){
+      playBackground(false);
+    }else{
+      playBackground(true);
+    }
+  }, [isDetected, isGameOver])
+  
 
   return (
       <main className="flex min-h-screen flex-col items-center justify-center p-24">
